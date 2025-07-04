@@ -35,17 +35,31 @@ emptyCartButton.addEventListener('click', () => {
 
 // Pagar (usa backend en Render)
 checkoutButton.addEventListener('click', async () => {
-  const response = await fetch('https://tienda-2-7fnq.onrender.com/create-checkout-session', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ items: cart })
-  });
+  if (cart.length === 0) {
+    alert('Tu carrito está vacío.');
+    return;
+  }
 
-  const data = await response.json();
-  if (data.url) {
-    window.location.href = data.url;
-  } else {
-    alert('Error al crear sesión de pago.');
+  try {
+    const response = await fetch('https://tienda-2-7fnq.onrender.com/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: cart })
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la respuesta del servidor');
+    }
+
+    const data = await response.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert('No se recibió una URL de pago válida.');
+    }
+  } catch (error) {
+    console.error('Error al procesar el pago:', error);
+    alert('Hubo un problema al iniciar el pago. Intenta más tarde.');
   }
 });
 
