@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // 👉 Permitimos peticiones del frontend
 const corsOptions = {
-  origin: 'https://tienda-1-wa47.onrender.com', // tu frontend
+  origin: 'https://tienda-2-7fnq.onrender.com', // tu frontend
   methods: ['POST'],
   credentials: false
 };
