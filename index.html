@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Tienda de Ropa</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <div class="logo">Mi Tienda de Ropa</div>
+      <nav class="nav-left">
+        <a href="#" id="inicioLink">Inicio</a>
+        <a href="#" id="hombreLink">Hombre</a>
+        <a href="#" id="mujerLink">Mujer</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <div id="cart">
+        🛒 <span id="cartCount">0</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="product-list">
+    <!-- Productos Hombre -->
+    <div class="product" data-category="hombre">
+      <img src="img/producto1.jpg" alt="Camiseta Hombre">
+      <h3>Camiseta Hombre</h3>
+      <p>Talla:
+        <select>
+          <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+        </select>
+      </p>
+      <p>Precio: 20€</p>
+      <button class="add-to-cart" data-name="Camiseta Hombre" data-price="20">Añadir al carrito</button>
+    </div>
+
+    <div class="product" data-category="hombre">
+      <img src="img/producto2.jpg" alt="Pantalón Hombre">
+      <h3>Pantalón Hombre</h3>
+      <p>Talla:
+        <select>
+          <option>30</option><option>32</option><option>34</option><option>36</option><option>38</option>
+        </select>
+      </p>
+      <p>Precio: 40€</p>
+      <button class="add-to-cart" data-name="Pantalón Hombre" data-price="40">Añadir al carrito</button>
+    </div>
+
+    <!-- Productos Mujer -->
+    <div class="product" data-category="mujer">
+      <img src="img/producto3.jpg" alt="Vestido Mujer">
+      <h3>Vestido Mujer</h3>
+      <p>Talla:
+        <select>
+          <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+        </select>
+      </p>
+      <p>Precio: 35€</p>
+      <button class="add-to-cart" data-name="Vestido Mujer" data-price="35">Añadir al carrito</button>
+    </div>
+
+    <div class="product" data-category="mujer">
+      <img src="img/producto4.jpg" alt="Falda Mujer">
+      <h3>Falda Mujer</h3>
+      <p>Talla:
+        <select>
+          <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+        </select>
+      </p>
+      <p>Precio: 25€</p>
+      <button class="add-to-cart" data-name="Falda Mujer" data-price="25">Añadir al carrito</button>
+    </div>
+  </main>
+
+  <div id="cart-modal" class="hidden">
+    <h2>Mi Carrito</h2>
+    <ul id="cart-items"></ul>
+    <p id="cart-total">Total: 0€</p>
+    <button id="checkout-button">Pagar</button>
+    <button id="empty-cart-button">Vaciar carrito</button>
+  </div>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="script.js"></script>
+</body>
+</html>
