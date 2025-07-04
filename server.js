@@ -12,7 +12,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // ✅ CORS para GitHub Pages
 app.use(cors({
-  origin: '*',  // 🔓 Permite cualquier origen temporalmente
+  origin: 'https://adrianrs928222.github.io',
   methods: ['POST'],
   allowedHeaders: ['Content-Type']
 }));
