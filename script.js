@@ -35,7 +35,7 @@ emptyCartButton.addEventListener('click', () => {
 
 // Pagar (usa backend en Render)
 checkoutButton.addEventListener('click', async () => {
-  const response = await fetch('https://tienda-1-wa47.onrender.com/create-checkout-session', {
+  const response = await fetch('https://tienda-2-7fnq.onrender.com/create-checkout-session', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ items: cart })
