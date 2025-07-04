@@ -3,14 +3,13 @@ import Stripe from 'stripe';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Carga las variables de entorno desde .env
+dotenv.config(); // Cargar variables del archivo .env
 
 const app = express();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); // Clave secreta de Stripe
 
-// ✅ Render: tu frontend está en la misma URL que el backend
 const corsOptions = {
-  origin: 'https://tienda-2-7fnq.onrender.com', // 👈 tu dominio exacto
+  origin: 'https://tienda-2-7fnq.onrender.com', // Tu dominio exacto
   methods: ['POST'],
   credentials: false
 };
@@ -30,7 +29,7 @@ app.post('/create-checkout-session', async (req, res) => {
       price_data: {
         currency: 'eur',
         product_data: { name: item.name },
-        unit_amount: Math.round(item.price * 100), // Stripe espera céntimos
+        unit_amount: Math.round(item.price * 100), // Convertir a céntimos
       },
       quantity: 1,
     }));
@@ -44,6 +43,7 @@ app.post('/create-checkout-session', async (req, res) => {
     });
 
     res.json({ url: session.url });
+
   } catch (err) {
     console.error('❌ Stripe error:', err.message);
     res.status(500).json({ error: 'Error al crear sesión de pago' });
