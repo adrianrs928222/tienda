@@ -35,7 +35,7 @@ emptyCartButton.addEventListener('click', () => {
 
 // 🚀 Pagar → llama a tu API en Railway
 checkoutButton.addEventListener('click', async () => {
-  const response = await fetch('https://stripe-backend-production.up.railway.app/create-checkout-session', {
+  const response = await fetch('https://tienda-1-wa47.onrender.com/create-checkout-session', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ items: cart })
