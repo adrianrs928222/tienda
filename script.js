@@ -33,7 +33,7 @@ emptyCartButton.addEventListener('click', () => {
   updateCart();
 });
 
-// 🚀 Pagar → llama a tu API en Railway
+// Pagar (usa backend en Render)
 checkoutButton.addEventListener('click', async () => {
   const response = await fetch('https://tienda-1-wa47.onrender.com/create-checkout-session', {
     method: 'POST',
@@ -49,7 +49,7 @@ checkoutButton.addEventListener('click', async () => {
   }
 });
 
-// Filtros
+// Filtros por categoría
 inicioLink.addEventListener('click', () => {
   document.querySelectorAll('.product').forEach(p => p.style.display = '');
 });
@@ -88,5 +88,5 @@ function updateCart() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Inicializar carrito al cargar
+// Inicializar carrito
 updateCart();
