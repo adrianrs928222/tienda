@@ -1,12 +1,22 @@
 import express from 'express';
 import Stripe from 'stripe';
 import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config(); // Para cargar variables del .env
 
 const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+// SOLO permite peticiones desde tu frontend en Vercel
+const corsOptions = {
+  origin: 'https://tu-frontend.vercel.app', // ⬅️ CAMBIA ESTO por tu dominio real de Vercel
+  methods: ['POST'],
+  credentials: false
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(cors());
 
 app.post('/create-checkout-session', async (req, res) => {
   const items = req.body.items || [];
@@ -37,3 +47,4 @@ app.post('/create-checkout-session', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+
