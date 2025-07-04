@@ -1,17 +1,15 @@
-// server.js o index.js
 import express from 'express';
 import Stripe from 'stripe';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Carga variables de entorno
+dotenv.config();
 
 const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// 🟢 CAMBIA esto por tu dominio real de Vercel
 const corsOptions = {
-  origin: 'https://tu-tienda.vercel.app', // <-- CAMBIA ESTO 🔁
+  origin: 'https://TU-TIENDA.vercel.app', // 🟡 PON AQUÍ TU URL DE VERCE
   methods: ['POST'],
   credentials: false
 };
@@ -23,7 +21,7 @@ app.post('/create-checkout-session', async (req, res) => {
   const items = req.body.items || [];
 
   if (!Array.isArray(items) || items.length === 0) {
-    return res.status(400).json({ error: 'No hay productos en el carrito' });
+    return res.status(400).json({ error: 'Carrito vacío' });
   }
 
   try {
@@ -31,7 +29,7 @@ app.post('/create-checkout-session', async (req, res) => {
       price_data: {
         currency: 'eur',
         product_data: { name: item.name },
-        unit_amount: Math.round(item.price * 100), // 💶 Stripe usa céntimos
+        unit_amount: Math.round(item.price * 100),
       },
       quantity: 1,
     }));
@@ -53,4 +51,4 @@ app.post('/create-checkout-session', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`✅ Servidor corriendo en puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
