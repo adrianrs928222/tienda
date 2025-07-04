@@ -1,4 +1,3 @@
-// Elementos del DOM
 const products = document.querySelectorAll('.add-to-cart');
 const cartCount = document.getElementById('cartCount');
 const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -13,8 +12,6 @@ const inicioLink = document.getElementById('inicioLink');
 const hombreLink = document.getElementById('hombreLink');
 const mujerLink = document.getElementById('mujerLink');
 
-const allProducts = document.querySelectorAll('.product');
-
 // Añadir producto al carrito
 products.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -22,13 +19,12 @@ products.forEach(btn => {
     const price = parseFloat(btn.dataset.price);
     cart.push({ name, price });
     updateCart();
-    alert(`${name} añadido al carrito`);
   });
 });
 
-// Mostrar/ocultar modal del carrito
+// Mostrar/ocultar carrito
 cartIcon.addEventListener('click', () => {
-  cartModal.classList.toggle('open');
+  cartModal.classList.toggle('hidden');
 });
 
 // Vaciar carrito
@@ -37,72 +33,60 @@ emptyCartButton.addEventListener('click', () => {
   updateCart();
 });
 
-// Botón de pago con Stripe
+// 🚀 Pagar → llama a tu API en Railway
 checkoutButton.addEventListener('click', async () => {
-  const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+  const response = await fetch('https://stripe-backend-production.up.railway.app/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: cart })
+  });
 
-  if (storedCart.length === 0) {
-    alert("El carrito está vacío. Añade productos antes de pagar.");
-    return;
-  }
-
-  try {
-    const response = await fetch('https://tienda-2-7fnq.onrender.com/create-checkout-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: storedCart })
-    });
-
-    const data = await response.json();
-
-    if (response.ok && data.url) {
-      window.location.href = data.url;
-    } else {
-      console.error("Error en la respuesta:", data);
-      alert("Hubo un problema al iniciar el pago.");
-    }
-  } catch (error) {
-    console.error("Error de red:", error);
-    alert("No se pudo conectar con el servidor.");
+  const data = await response.json();
+  if (data.url) {
+    window.location.href = data.url;
+  } else {
+    alert('Error al crear sesión de pago.');
   }
 });
 
-// Filtros por categoría
-inicioLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  allProducts.forEach(product => product.style.display = 'block');
+// Filtros
+inicioLink.addEventListener('click', () => {
+  document.querySelectorAll('.product').forEach(p => p.style.display = '');
 });
-
-hombreLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  allProducts.forEach(product => {
-    product.style.display = product.classList.contains('hombre') ? 'block' : 'none';
+hombreLink.addEventListener('click', () => {
+  document.querySelectorAll('.product').forEach(p => {
+    p.style.display = p.dataset.category === 'hombre' ? '' : 'none';
+  });
+});
+mujerLink.addEventListener('click', () => {
+  document.querySelectorAll('.product').forEach(p => {
+    p.style.display = p.dataset.category === 'mujer' ? '' : 'none';
   });
 });
 
-mujerLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  allProducts.forEach(product => {
-    product.style.display = product.classList.contains('mujer') ? 'block' : 'none';
-  });
-});
-
-// Actualizar carrito visual y localStorage
+// Actualizar carrito
 function updateCart() {
-  localStorage.setItem('cart', JSON.stringify(cart));
   cartCount.textContent = cart.length;
   cartItems.innerHTML = '';
   let total = 0;
 
-  cart.forEach(item => {
+  cart.forEach((item, index) => {
     const li = document.createElement('li');
-    li.textContent = `${item.name} - ${item.price.toFixed(2)} €`;
+    li.textContent = `${item.name} - ${item.price}€ `;
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Eliminar';
+    removeBtn.addEventListener('click', () => {
+      cart.splice(index, 1);
+      updateCart();
+    });
+    li.appendChild(removeBtn);
     cartItems.appendChild(li);
     total += item.price;
   });
 
-  cartTotal.textContent = `Total: ${total.toFixed(2)} €`;
+  cartTotal.textContent = `Total: ${total}€`;
+  localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Iniciar con carrito actualizado
+// Inicializar carrito al cargar
 updateCart();
