@@ -39,8 +39,8 @@ app.post('/create-checkout-session', async (req, res) => {
         quantity: 1,
       })),
       mode: 'payment',
-      success_url: 'https://tienda-1-wa47.onrender.com/success.html',
-      cancel_url: 'https://tienda-1-wa47.onrender.com/cancel.html',
+      success_url: 'https://tienda-2-7fnq.onrender.com/success.html',
+      cancel_url: 'https://tienda-2-7fnq.onrender.com/cancel.html',
     });
 
     res.json({ url: session.url });
