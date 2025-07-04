@@ -9,7 +9,7 @@ const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const corsOptions = {
-  origin: 'https://TU-TIENDA.vercel.app', // 🟡 PON AQUÍ TU URL DE VERCE
+  origin: 'https://tienda-2-7fnq.onrender.com', // 🟡 PON AQUÍ TU URL DE VERCE
   methods: ['POST'],
   credentials: false
 };
