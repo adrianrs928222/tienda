@@ -33,7 +33,7 @@ emptyCartButton.addEventListener('click', () => {
   updateCart();
 });
 
-// Pagar (usa backend en Render)
+// Pagar (usa backend desde el mismo servidor)
 checkoutButton.addEventListener('click', async () => {
   if (cart.length === 0) {
     alert('Tu carrito está vacío.');
@@ -41,7 +41,7 @@ checkoutButton.addEventListener('click', async () => {
   }
 
   try {
-    const response = await fetch('https://tienda-2-7fnq.onrender.com/create-checkout-session', {
+    const response = await fetch('/create-checkout-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ items: cart })
