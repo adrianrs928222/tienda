@@ -10,8 +10,13 @@ const app = express();
 // ✅ Carga la clave secreta de Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// ✅ CORS general (todo desde el mismo dominio, así que no hay problema)
-app.use(cors());
+// ✅ CORS para GitHub Pages
+app.use(cors({
+  origin: 'https://adrianrs928222.github.io',
+  methods: ['POST'],
+  credentials: false
+}));
+
 app.use(express.json());
 
 // ✅ Ruta de pago con Stripe
